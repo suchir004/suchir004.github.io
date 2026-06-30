@@ -1,33 +1,22 @@
-# Chirpy Starter
+# My Portfolio
 
-[![Gem Version](https://img.shields.io/gem/v/jekyll-theme-chirpy)][gem]&nbsp;
-[![GitHub license](https://img.shields.io/github/license/cotes2020/chirpy-starter.svg?color=blue)][mit]
+This is my personal portfolio site, built to go alongside my resume — it covers my projects in more depth than a one-page resume allows, with a focus on RF, embedded systems and IoT.
 
-A minimal, ready-to-use template for creating a blog with the [**Chirpy**][chirpy] Jekyll theme. Get up and running in minutes with all critical files pre-configured.
+🔗 **Live site:** https://suchir004.github.io
 
-## Why This Starter Exists
+## What's here
 
-When installing Chirpy through [RubyGems.org][gem], Jekyll can only read a subset of theme files (`_data`, `_layouts`, `_includes`, `_sass`, `assets`) and limited `_config.yml` options from the gem. As a result, users cannot enjoy the full out-of-the-box experience that Chirpy offers.
+- Detailed write-ups of my projects (problem statement, components, how things work, challenges, results)
+- Organized by category (examples: Embedded Systems, RF, IoT) and tagged by technology
+- An About page with a bit more on my background
 
-To unlock all features, the following files must be present in your Jekyll site:
+## Connect with me
 
-```shell
-.
-├── _config.yml
-├── _plugins
-├── _tabs
-└── index.html
-```
+- Email: suchirks.23@gmail.com
 
-This starter bundles those files from the latest **Chirpy** release along with a [CD][CD] workflow, so you can start writing immediately.
+## Built with
 
-## Usage
-
-Check out the [theme's docs](https://github.com/cotes2020/jekyll-theme-chirpy/wiki).
-
-## Contributing
-
-This repository is automatically updated with new releases from the theme repository. If you encounter any issues or want to contribute to its improvement, please visit the [theme repository][chirpy] to provide feedback.
+This site uses the [Chirpy Jekyll theme](https://github.com/cotes2020/chirpy-starter), hosted on GitHub Pages.
 
 ## License
 
