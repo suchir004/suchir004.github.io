@@ -1,7 +1,9 @@
 ---
 title: "Designing a 2.4GHz FMCW Radar on a Single PCB"
 date: 2026-07-24
+categories: [Projects, Embedded Systems]
 tags: [rf, pcb, kicad, radar, stm32]
+math: true
 ---
 
 ## Introduction
@@ -47,9 +49,9 @@ range.
 
 The core range equation is:
 
-```
-d = (c × t) / 2
-```
+$$
+d = \frac{c \times t}{2}
+$$
 
 where `d` is the distance to the target, `c` is the speed of light, and `t`
 is the round-trip time for the signal to travel to the target and back. We
@@ -69,9 +71,9 @@ This feeds into the **radar range equation**, which relates the power
 actually received back at the radar (`Pr`) to the transmitted power (`Pt`),
 antenna gain (`G`), wavelength (`λ`), target RCS (`σ`), and range (`R`):
 
-```
-Pr = (Pt × G² × λ² × σ) / ((4π)³ × R⁴)
-```
+$$
+P_r = \frac{P_t \, G^2 \, \lambda^2 \, \sigma}{(4\pi)^3 \, R^4}
+$$
 
 The detail worth calling out is the **R⁴ in the denominator** — received
 power falls off with the *fourth* power of range, not the square. Double
@@ -154,25 +156,28 @@ how often it's sampled — in this case, once per chirp.
 
 The Doppler shift for a target moving at velocity `v` is:
 
-```
-fd = 2v / λ
-```
+$$
+f_d = \frac{2v}{\lambda}
+$$
 
 At the center frequency of this band (2.44 GHz), `λ = c / f0 ≈ 0.123 m`
 (12.3 cm). For the target maximum velocity of 6 m/s:
 
-```
-fd(6 m/s) = 2 × 6 / 0.123 ≈ 97.6 Hz
-```
+$$
+f_d(6\text{ m/s}) = \frac{2 \times 6}{0.123} \approx 97.6\text{ Hz}
+$$
 
 To sample this shift without aliasing, the chirp repetition rate (1 /
 T_chirp) must be at least twice this Doppler frequency (the Nyquist
 criterion applied to chirp-to-chirp sampling):
 
-```
-1 / T_chirp ≥ 2 × fd(v_max)
-T_chirp ≤ 1 / (2 × fd(v_max)) ≈ 1 / (2 × 97.6) ≈ 5.12 ms
-```
+$$
+\frac{1}{T_{chirp}} \geq 2 \times f_d(v_{max})
+$$
+
+$$
+T_{chirp} \leq \frac{1}{2 \times f_d(v_{max})} \approx \frac{1}{2 \times 97.6} \approx 5.12\text{ ms}
+$$
 
 Rounding down gives the **5 ms chirp period** used in this design — chosen
 so that a 6 m/s target sits right at (just under) the maximum unambiguous
@@ -214,7 +219,7 @@ wavelength) at
 physical length of **18.1393mm**, closely matching the as-built ~18mm arm
 length.
 
-![KiCad PCB Calculator with W/L results](/assets/img/posts/FMCW-radar/WPD-arms-kicad-calculator.png) 
+![KiCad PCB Calculator with W/L results](/assets/img/posts/FMCW-radar/WPD-arms-kicad-calculator.png)_KiCad PCB Calculator with W/L results_
 
 This implementation also adds a small (1Ω) series resistor on each output
 arm, between the arm itself and the shared 100Ω isolation resistor, rather
@@ -354,12 +359,12 @@ smooth and reducing EMI — bend radii are kept to at least 3× the trace width
 The stackup was chosen from JLCPCB's published options for a 4-layer board
 (see: [JLCPCB impedance reference](https://jlcpcb.com/impedance)).
 
-![JLCPCB Impedance-controlled stackup](/assets/img/posts/FMCW-radar/JLCPCB-stackup.png) 
+![JLCPCB Impedance-controlled stackup](/assets/img/posts/FMCW-radar/JLCPCB-stackup.png)_JLCPCB Impedance-controlled stackup_ 
 
 Trace impedance was calculated using DigiKey's [PCB trace impedance
 calculator](https://www.digikey.in/en/resources/conversion-calculators/conversion-calculator-pcb-trace-impedance).
 
-![DigiKey trace impedance calculator](/assets/img/posts/FMCW-radar/tracewidth-DigiKey.png) 
+![DigiKey trace impedance calculator](/assets/img/posts/FMCW-radar/tracewidth-DigiKey.png)_DigiKey trace impedance calculator_ 
 
 The transmit and receive SMA connectors are placed at a 90° angle to each
 other, separated by a dense wall of grounded vias for **isolation**. 
@@ -390,36 +395,36 @@ Board dimensions: **80mm × 40mm**, with the SMA connectors adding roughly
 ### Schematics:
 The schematic design involves  the use of hierarchical pages, divided as follows:
 
-![Root Page showing connections between subpages](/assets/img/posts/FMCW-radar/Mainpage.png)
+![Root Page showing connections between subpages](/assets/img/posts/FMCW-radar/Mainpage.png)_Root Page showing connections between subpages_
 
-![Microcontroller Subsection Page](/assets/img/posts/FMCW-radar/MCU-subsection.png)
+![Microcontroller Subsection Page](/assets/img/posts/FMCW-radar/MCU-subsection.png)_Microcontroller Subsection Page_
 
-![RF Subsection Page](/assets/img/posts/FMCW-radar/RF-subsection.png)
+![RF Subsection Page](/assets/img/posts/FMCW-radar/RF-subsection.png)_RF Subsection Page_
 
-![Baseband Subsection Page](/assets/img/posts/FMCW-radar/Baseband-subsection.png)
+![Baseband Subsection Page](/assets/img/posts/FMCW-radar/Baseband-subsection.png)_Baseband Subsection Page_
 
-![Power Supply Subsection Page](/assets/img/posts/FMCW-radar/PowerSupply-subsection.png)
+![Power Supply Subsection Page](/assets/img/posts/FMCW-radar/PowerSupply-subsection.png)_Power Supply Subsection Page_
 
 ### PCB 
 The following screenshots depict the different layers of the PCB.
 
-![All layers of the PCB](/assets/img/posts/FMCW-radar/PCB-AllLayers.png)
+![All layers of the PCB](/assets/img/posts/FMCW-radar/PCB-AllLayers.png)_All layers of the PCB_
 
 Note: the zones have not been filled in the above image.
 
-![Upper layer routing](/assets/img/posts/FMCW-radar/PCB-F.Cu-Routing.png)
+![Upper layer routing](/assets/img/posts/FMCW-radar/PCB-F.Cu-Routing.png)_Upper layer routing_
 
 Here, the routing of traces on the upper layer is shown. Most of the traces carry either RF or digital signals. The zone is not filled. 
 
-![Filled Ground plane](/assets/img/posts/FMCW-radar/PCB-In1.Cu-FilledGNDPlane.png)
+![Filled Ground plane](/assets/img/posts/FMCW-radar/PCB-In1.Cu-FilledGNDPlane.png)_Filled Ground plane_
 
-The zone has been filled in the above image. It shows the uniform ground plane present on the board. 
+The zone has been filled in the above image. It shows the uniform ground plane present on the board's second layer. 
 
-![Power Supply layer routing](/assets/img/posts/FMCW-radar/PCB-In2.Cu-Routing.png)
+![Power Supply layer routing](/assets/img/posts/FMCW-radar/PCB-In2.Cu-Routing.png)_Power Supply layer routing_
 
-The above image shows the distribution of the power signals (+5V,+3.3V,+3.3_VCO,+3.3V_RF)
+The above image shows the distribution of the power signals on layer 3 of the board (+5V,+3.3V,+3.3_VCO,+3.3V_RF).
 
-![Baseband Layer routing](/assets/img/posts/FMCW-radar/PCB-B.Cu-Routing.png)
+![Baseband Layer routing](/assets/img/posts/FMCW-radar/PCB-B.Cu-Routing.png)_Baseband Layer routing_
 
 The back layer of the PCB holds the sensitive baseband components, maximising distance from RF and digital sections on the first layer.
 
@@ -428,11 +433,11 @@ The back layer of the PCB holds the sensitive baseband components, maximising di
 
 Using KiCad's 3D viewer option, we can see how the board physically looks:
 
-![PCB, Top View](/assets/img/posts/FMCW-radar/PCB-3DModel-TopView.png)
+![PCB, Top View](/assets/img/posts/FMCW-radar/PCB-3DModel-TopView.png)_PCB, Top View_
 
-![PCB, Bottom View](/assets/img/posts/FMCW-radar/PCB-3DModel-BottomView.png)
+![PCB, Bottom View](/assets/img/posts/FMCW-radar/PCB-3DModel-BottomView.png)_PCB, Bottom View_
 
-![PCB, Isometric View](/assets/img/posts/FMCW-radar/PCB-3DModel-IsometricView.png)
+![PCB, Isometric View](/assets/img/posts/FMCW-radar/PCB-3DModel-IsometricView.png)_PCB, Isometric View_
 
 ## References
 
