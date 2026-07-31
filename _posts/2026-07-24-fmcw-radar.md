@@ -450,4 +450,4 @@ Using KiCad's 3D viewer option, we can see how the board physically looks:
 
 ## Things I learnt:
 - An earlier version of this board used two amplifiers for the transmit chain, one GALI-84+ connected to the RFX2401C input. However, the powerful output of the GALI-84+ was well above the RFX2401C recommended input level; therefore, the design had to be reworked to remove the GALI-84+. 
-- The upper layer of the board initially did not have a copper pour. This meant that via stitching was not serving its purpose. I added the filled zone to the upper layer, providing a way for accidental leaks to find a low impedance path return path.
+- The upper layer of the board initially did not have a copper pour. This meant that via stitching was not serving its purpose. I added the filled zone to the upper layer, providing a way for accidental leaks to find a low impedance return path.
